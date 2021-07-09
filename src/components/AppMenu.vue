@@ -36,7 +36,7 @@ export default {
 <style scoped>
 #logo {
   width: 40%;
-  margin: 20% 30%;
+  margin: 10% 30%;
 }
 
 #menu {
