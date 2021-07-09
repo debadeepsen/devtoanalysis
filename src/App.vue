@@ -1,8 +1,10 @@
 <template>
   <div id="app">
+    <app-menu></app-menu>
     <h1>Dev.to articles statistical analysis</h1>
-    <div>
+    <div id="top_words">
       <h2>
+        <i class="fas fa-book"></i>
         Top words parsed from the title (occurring at least
         {{ word_max_freq }} times)
       </h2>
@@ -15,38 +17,58 @@
         </div>
       </div>
     </div>
-    <div>
+    <div id="top_tags">
       <h2>
+        <i class="fas fa-tags"></i>
         Top tags (occurring at least
         {{ word_max_freq }} times)
       </h2>
       <div>
         <div v-if="!results || !results.length">Loading...</div>
-        <div v-for="tag in tags" class="keyword" :key="tag.text">
-          {{ tag.text }}
+        <div v-for="tag in tags" class="keyword hashtag" :key="tag.text">
+          <a target="_blank" :href="`https://dev.to/t/${tag.text}`">{{ tag.text }}</a>
           <div class="count">{{ tag.value }}</div>
         </div>
+      </div>
+    </div>
+    <div id="most_reacted_posts">
+      <h2>
+        <i class="fas fa-smile-beam"></i>
+        Top 20 posts with the most reactions</h2>
+      <div>
+        <div v-if="!results || !results.length">Loading...</div>
+        <post-list :postList="most_reacted_posts"></post-list>
+      </div>
+    </div>
+    <div id="most_commented_posts">
+      <h2>
+        <i class="fas fa-comments"></i>
+        Top 20 posts with the most comments</h2>
+      <div>
+        <div v-if="!results || !results.length">Loading...</div>
+        <post-list :postList="most_commented_posts"></post-list>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import AppMenu from './components/AppMenu.vue';
+import PostList from './components/PostList.vue';
 // import Cloud from "vue-d3-cloud";
 
 import { API_URL, WORD_MAX_FREQ } from "./Constants";
 import { populate, trim } from "./Lib";
 
 export default {
-  // components: {
-  //   Cloud,
-  // },
-
+  components: { PostList, AppMenu },
   data() {
     return {
       results: [],
       keywords: [],
       tags: [],
+      most_reacted_posts: [],
+      most_commented_posts: [],
     };
   },
 
@@ -82,6 +104,16 @@ export default {
 
         this.keywords = trim(keyword_array);
         this.tags = trim(tag_array);
+
+        // most reacted posts
+        article_list.sort(
+          (a, b) => b.public_reactions_count - a.public_reactions_count
+        );
+        this.most_reacted_posts = article_list.filter((a, i) => i < 20);
+
+        // most commented posts
+        article_list.sort((a, b) => b.comments_count - a.comments_count);
+        this.most_commented_posts = article_list.filter((a, i) => i < 20);
       });
   },
 };

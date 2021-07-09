@@ -22,3 +22,8 @@ export const trim = (arr) => {
 
     return x;
 }
+
+export const scrollIntoView = (id) => {
+    let elem = document.getElementById(id);
+    elem.scrollIntoView({ behavior: "smooth" });
+}
