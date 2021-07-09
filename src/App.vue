@@ -49,6 +49,9 @@
         <post-list :postList="most_commented_posts" countKey="comments_count"></post-list>
       </div>
     </div>
+    <div id="reactions_vs_comments">
+      <h2>Reactions vs Comments</h2>
+    </div>
   </div>
 </template>
 
