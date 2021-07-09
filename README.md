@@ -1,16 +1,30 @@
-# dev-vue
+# Dev.to Statistics
+
+This project is coded in Vue JS.
 
 ## Project setup
+```
+npm install
+```
+OR
+
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### To run a development build
+```
+npm run serve
+```
+OR
 ```
 yarn serve
 ```
+Then launch a browser window and go to `http://localhost:8080`
 
-### Compiles and minifies for production
+> If there is already an application running on port 8080, the development server will use another port. Read the development console message for the proper URL.
+
+### TO compile and minify for production
 ```
 yarn build
 ```
