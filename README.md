@@ -24,7 +24,11 @@ Then launch a browser window and go to `http://localhost:8080`
 
 > If there is already an application running on port 8080, the development server will use another port. Read the development console message for the proper URL.
 
-### TO compile and minify for production
+### To compile and minify for production
+```
+npm run build
+```
+OR
 ```
 yarn build
 ```
