@@ -37,7 +37,7 @@
         Top 20 posts with the most reactions</h2>
       <div>
         <div v-if="!results || !results.length">Loading...</div>
-        <post-list :postList="most_reacted_posts"></post-list>
+        <post-list :postList="most_reacted_posts" countKey="public_reactions_count"></post-list>
       </div>
     </div>
     <div id="most_commented_posts">
@@ -46,7 +46,7 @@
         Top 20 posts with the most comments</h2>
       <div>
         <div v-if="!results || !results.length">Loading...</div>
-        <post-list :postList="most_commented_posts"></post-list>
+        <post-list :postList="most_commented_posts" countKey="comments_count"></post-list>
       </div>
     </div>
   </div>

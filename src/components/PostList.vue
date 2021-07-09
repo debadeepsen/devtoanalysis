@@ -9,7 +9,7 @@
       <div>
         <div>
           <a target="_blank" :href="post.url">{{ post.title }}</a>
-          <div class="count">{{ post.public_reactions_count }}</div>
+          <div class="count">{{ post[countKey] }}</div>
         </div>
         <div class="post-hashtags">
           <a target="_blank" :href="`https://dev.to/${post.user.username}`" :title="post.user.name">
@@ -28,6 +28,7 @@
 export default {
   props: {
     postList: Array,
+    countKey: String
   },
 };
 </script>
