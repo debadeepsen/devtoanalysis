@@ -78,7 +78,10 @@ export default {
 }
 
 .cloud-container {
+  margin: 10px;
+  margin-top: -10px;
   padding: 10px;
+  background-color: var(--secondary-color-faint);
 }
 
 .button-container {

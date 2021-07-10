@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-        <div v-if="!results || !results.length">Loading...</div>
+    <div id="loading_spinner" v-show="!results || !results.length">
+      Loading...
+    </div>
     <app-menu></app-menu>
     <h1>Dev.to articles statistical analysis</h1>
     <!------------------------------------------------------------>
@@ -28,7 +30,6 @@
         Top 20 posts with the most reactions
       </h2>
       <div>
-        <div v-if="!results || !results.length">Loading...</div>
         <post-list
           :postList="most_reacted_posts"
           countKey="public_reactions_count"
@@ -42,7 +43,6 @@
         Top 20 posts with the most comments
       </h2>
       <div>
-        <div v-if="!results || !results.length">Loading...</div>
         <post-list
           :postList="most_commented_posts"
           countKey="comments_count"
@@ -52,20 +52,22 @@
     <!------------------------------------------------------------>
     <div id="reactions_vs_comments">
       <h2>Reactions vs Comments</h2>
+      <chart chartType="scatter"></chart>
     </div>
   </div>
 </template>
 
 <script>
 import AppMenu from "./components/AppMenu.vue";
+import Chart from "./components/Chart.vue";
 import PostList from "./components/PostList.vue";
-import WordCloud from './components/WordCloud.vue';
+import WordCloud from "./components/WordCloud.vue";
 
 import { API_URL, WORD_MAX_FREQ } from "./libraries/Constants";
 import { populate, trim } from "./libraries/Lib";
 
 export default {
-  components: { PostList, AppMenu, WordCloud },
+  components: { PostList, AppMenu, WordCloud, Chart },
   data() {
     return {
       results: [],
