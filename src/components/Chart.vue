@@ -6,6 +6,7 @@
 
 <script>
 import ApexCharts from "apexcharts";
+// import { sd } from '../libraries/Constants';
 
 export default {
   props: {
@@ -16,20 +17,24 @@ export default {
   },
 
   mounted() {
+
     var options = {
       chart: {
         type: this.$props.chartType,
       },
       series: [
         {
-          name: this.$props.chartName,
-          data: this.$props.seriesData,
+          name: this.$props.chartName || "undefined",
+          data: this.$props.seriesData || [],
         },
       ],
       xaxis: {
         type: this.$props.xAxisType,
       },
     };
+
+    console.log("OPTIONS");
+    console.log(options);
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
 

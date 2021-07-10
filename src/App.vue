@@ -53,9 +53,10 @@
     <div id="reactions_vs_comments">
       <h2>Reactions vs Comments</h2>
       <chart
+        chartName="reactions_vs_comments"
         chartType="scatter"
         xAxisType="numeric"
-        :seriesData="getChartData()"
+        :seriesData="r_v_c_chart_data"
       ></chart>
     </div>
   </div>
@@ -79,6 +80,7 @@ export default {
       tags: [],
       most_reacted_posts: [],
       most_commented_posts: [],
+      r_v_c_chart_data: [],
     };
   },
 
@@ -93,6 +95,8 @@ export default {
       .then((r) => r.json())
       .then((article_list) => {
         this.results = article_list;
+
+        this.r_v_c_chart_data = this.getChartData(article_list);
 
         let keyword_array = [];
         let tag_array = [];
@@ -124,13 +128,15 @@ export default {
   },
 
   methods: {
-    getChartData() {
+    getChartData(results) {
       let data = [];
 
-      this.results.forEach((p) => {
-        if (p.public_reactions_count && p.comments_count)
-          data.push([p.public_reactions_count, p.comments_count]);
+      results.forEach((p, i) => {
+        if (p.public_reactions_count && p.comments_count && i < 1000)
+          data.push({ x: p.comments_count, y: p.public_reactions_count });
       });
+
+      console.log(data);
 
       return data;
     },
