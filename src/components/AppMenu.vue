@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import { scrollIntoView } from "../Lib";
+import { scrollIntoView } from "../libraries/Lib";
 export default {
-  name: "App Menu",
+  name: "AppMenu",
 
   methods: {
     goto(id) {
