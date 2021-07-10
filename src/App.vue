@@ -52,7 +52,11 @@
     <!------------------------------------------------------------>
     <div id="reactions_vs_comments">
       <h2>Reactions vs Comments</h2>
-      <chart chartType="scatter"></chart>
+      <chart
+        chartType="scatter"
+        xAxisType="numeric"
+        :seriesData="getChartData()"
+      ></chart>
     </div>
   </div>
 </template>
@@ -81,10 +85,6 @@ export default {
   computed: {
     word_max_freq() {
       return WORD_MAX_FREQ;
-    },
-
-    fontSizeMapper(word) {
-      return Math.log2(word.value) * 5;
     },
   },
 
@@ -121,6 +121,19 @@ export default {
         article_list.sort((a, b) => b.comments_count - a.comments_count);
         this.most_commented_posts = article_list.filter((a, i) => i < 20);
       });
+  },
+
+  methods: {
+    getChartData() {
+      let data = [];
+
+      this.results.forEach((p) => {
+        if (p.public_reactions_count && p.comments_count)
+          data.push([p.public_reactions_count, p.comments_count]);
+      });
+
+      return data;
+    },
   },
 };
 </script>

@@ -17,6 +17,10 @@
       <i class="fas fa-comments"></i>
       Most Comments
     </button>
+    <button @click="goto('reactions_vs_comments')">
+      <i class="fas fa-comments"></i>
+      Reactions vs Comments
+    </button>
   </div>
 </template>
 
