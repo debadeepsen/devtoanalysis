@@ -1,7 +1,7 @@
 export const API_URL = "https://dev.to/api/articles?per_page=1000";
 // export const API_URL = "content.json";
 export const WORD_MAX_FREQ = 10;
-export const NUMBER_OF_ARTICLES = 20;
+export const NUMBER_OF_ARTICLES = 10;
 export const COMMON_WORDS = [
     "",
     "how",

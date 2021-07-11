@@ -27,7 +27,7 @@
     <div id="most_reacted_posts">
       <h2>
         <i class="fas fa-smile-beam"></i>
-        Top 20 posts with the most reactions
+        Top {{ number_of_articles }} posts with the most reactions
       </h2>
       <div>
         <post-list
@@ -40,7 +40,7 @@
     <div id="most_commented_posts">
       <h2>
         <i class="fas fa-comments"></i>
-        Top 20 posts with the most comments
+        Top {{ number_of_articles }} posts with the most comments
       </h2>
       <div>
         <post-list
@@ -68,7 +68,11 @@ import Chart from "./components/Chart.vue";
 import PostList from "./components/PostList.vue";
 import WordCloud from "./components/WordCloud.vue";
 
-import { API_URL, WORD_MAX_FREQ } from "./libraries/Constants";
+import {
+  API_URL,
+  WORD_MAX_FREQ,
+  NUMBER_OF_ARTICLES,
+} from "./libraries/Constants";
 import { populate, trim } from "./libraries/Lib";
 
 export default {
@@ -87,6 +91,10 @@ export default {
   computed: {
     word_max_freq() {
       return WORD_MAX_FREQ;
+    },
+
+    number_of_articles() {
+      return NUMBER_OF_ARTICLES;
     },
   },
 
@@ -119,11 +127,15 @@ export default {
         article_list.sort(
           (a, b) => b.public_reactions_count - a.public_reactions_count
         );
-        this.most_reacted_posts = article_list.filter((a, i) => i < 20);
+        this.most_reacted_posts = article_list.filter(
+          (a, i) => i < NUMBER_OF_ARTICLES
+        );
 
         // most commented posts
         article_list.sort((a, b) => b.comments_count - a.comments_count);
-        this.most_commented_posts = article_list.filter((a, i) => i < 20);
+        this.most_commented_posts = article_list.filter(
+          (a, i) => i < NUMBER_OF_ARTICLES
+        );
       });
   },
 
