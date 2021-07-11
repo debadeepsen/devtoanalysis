@@ -16,29 +16,40 @@ export default {
     seriesData: Array,
   },
 
+  watch: {
+    seriesData: function() {
+      this.renderChart();
+    },
+  },
+
   mounted() {
+    this.renderChart();
+  },
 
-    var options = {
-      chart: {
-        type: this.$props.chartType,
-      },
-      series: [
-        {
-          name: this.$props.chartName || "undefined",
-          data: this.$props.seriesData || [],
+  methods: {
+    renderChart() {
+      var options = {
+        chart: {
+          type: this.$props.chartType,
         },
-      ],
-      xaxis: {
-        type: this.$props.xAxisType,
-      },
-    };
+        series: [
+          {
+            name: this.$props.chartName || "undefined",
+            data: this.$props.seriesData || [],
+          },
+        ],
+        xaxis: {
+          type: this.$props.xAxisType,
+        },
+      };
 
-    console.log("OPTIONS");
-    console.log(options);
+      console.log("OPTIONS");
+      console.log(options);
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
 
-    chart.render();
+      chart.render();
+    },
   },
 };
 </script>
