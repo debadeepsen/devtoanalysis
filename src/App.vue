@@ -59,6 +59,10 @@
         :seriesData="r_v_c_chart_data"
       ></chart>
     </div>
+    <!------------------------------------------------------------>
+    <div id="reactions_vs_comments">
+      <h2>Trend over Months</h2>
+    </div>
   </div>
 </template>
 
