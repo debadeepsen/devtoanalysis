@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div style="position:relative">
+    <div class="y-axis-label">{{ yAxisLabel }}</div>
     <div id="chart"></div>
+    <div class="x-axis-label">{{ xAxisLabel }}</div>
   </div>
 </template>
 
@@ -13,6 +15,8 @@ export default {
     chartType: String,
     xAxisType: String,
     chartName: String,
+    xAxisLabel: String,
+    yAxisLabel: String,
     seriesData: Array,
   },
 
@@ -53,3 +57,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#chart {
+  width: 90%;
+  margin-left: 50px;
+}
+
+.x-axis-label, .y-axis-label {
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.y-axis-label {
+  position: absolute;
+  top: 40%;
+  transform: rotate(-90deg);
+}
+</style>

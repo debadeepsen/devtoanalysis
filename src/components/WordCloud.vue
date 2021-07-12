@@ -20,7 +20,7 @@
     </div>
     <div
       class="word-container"
-      :style="{ maxHeight: showCount ? '10000px' : '0px' }"
+      :style="{ maxHeight: showCount ? '1000px' : '0px' }"
     >
       <div v-for="w in wordList" class="keyword" :key="w.text">
         {{ w.text }}

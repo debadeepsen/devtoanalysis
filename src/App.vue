@@ -56,13 +56,27 @@
         chartName="reactions_vs_comments"
         chartType="scatter"
         xAxisType="numeric"
+        xAxisLabel="Comments"
+        yAxisLabel="Reactions"
         :seriesData="r_v_c_chart_data"
       ></chart>
+      <div>
+        <b>Correlation Coefficient:</b> {{ r_v_c_data.correlation_coefficient }}
+      </div>
     </div>
     <!------------------------------------------------------------>
-    <div id="reactions_vs_comments">
+    <div id="trend_over_months">
       <h2>Trend over Months</h2>
     </div>
+    <!------------------------------------------------------------>
+    <div id="trend_over_years">
+      <h2>Trend over Years</h2>
+    </div>
+    <!------------------------------------------------------------>
+    <div id="user_behavior">
+      <h2>User posting behavior</h2>
+    </div>
+    <!------------------------------------------------------------>
   </div>
 </template>
 
@@ -71,6 +85,7 @@ import AppMenu from "./components/AppMenu.vue";
 import Chart from "./components/Chart.vue";
 import PostList from "./components/PostList.vue";
 import WordCloud from "./components/WordCloud.vue";
+import { correlation_coefficient } from "./libraries/StatMethods";
 
 import {
   API_URL,
@@ -89,6 +104,11 @@ export default {
       most_reacted_posts: [],
       most_commented_posts: [],
       r_v_c_chart_data: [],
+      r_v_c_data: {
+        r: [],
+        c: [],
+        correlation_coefficient: 0,
+      },
     };
   },
 
@@ -103,58 +123,72 @@ export default {
   },
 
   mounted() {
-    fetch(API_URL)
-      .then((r) => r.json())
-      .then((article_list) => {
-        this.results = article_list;
-
-        this.r_v_c_chart_data = this.getChartData(article_list);
-
-        let keyword_array = [];
-        let tag_array = [];
-
-        article_list.forEach((article) => {
-          // extracted keywords
-          let t = article.title.toLowerCase();
-          let words_in_current_title = t.split(" ");
-          populate(keyword_array, words_in_current_title);
-
-          // extracted tags
-          let tags_in_current_article = article.tag_list;
-          populate(tag_array, tags_in_current_article);
-        });
-
-        this.keywords = trim(keyword_array);
-        this.tags = trim(tag_array);
-
-        // most reacted posts
-        article_list.sort(
-          (a, b) => b.public_reactions_count - a.public_reactions_count
-        );
-        this.most_reacted_posts = article_list.filter(
-          (a, i) => i < NUMBER_OF_ARTICLES
-        );
-
-        // most commented posts
-        article_list.sort((a, b) => b.comments_count - a.comments_count);
-        this.most_commented_posts = article_list.filter(
-          (a, i) => i < NUMBER_OF_ARTICLES
-        );
-      });
+    this.fetchData();
   },
 
   methods: {
-    getChartData(results) {
+    fetchData() {
+      document.body.style.overflowY = "hidden";
+
+      fetch(API_URL)
+        .then((r) => r.json())
+        .then((article_list) => {
+          this.results = article_list;
+
+          this.loadChartData(article_list);
+
+          let keyword_array = [];
+          let tag_array = [];
+
+          article_list.forEach((article) => {
+            // extracted keywords
+            let t = article.title.toLowerCase();
+            let words_in_current_title = t.split(" ");
+            populate(keyword_array, words_in_current_title);
+
+            // extracted tags
+            let tags_in_current_article = article.tag_list;
+            populate(tag_array, tags_in_current_article);
+          });
+
+          this.keywords = trim(keyword_array);
+          this.tags = trim(tag_array);
+
+          // most reacted posts
+          article_list.sort(
+            (a, b) => b.public_reactions_count - a.public_reactions_count
+          );
+          this.most_reacted_posts = article_list.filter(
+            (a, i) => i < NUMBER_OF_ARTICLES
+          );
+
+          // most commented posts
+          article_list.sort((a, b) => b.comments_count - a.comments_count);
+          this.most_commented_posts = article_list.filter(
+            (a, i) => i < NUMBER_OF_ARTICLES
+          );
+
+          document.body.style.overflowY = "auto";
+        });
+    },
+
+    loadChartData(results) {
       let data = [];
+      let r = [];
+      let c = [];
 
       results.forEach((p, i) => {
         if (p.public_reactions_count && p.comments_count && i < 1000)
           data.push({ x: p.comments_count, y: p.public_reactions_count });
+        r.push(p.public_reactions_count);
+        c.push(p.comments_count);
       });
 
-      console.log(data);
+      this.r_v_c_chart_data = data;
+      this.r_v_c_data.r = r;
+      this.r_v_c_data.c = c;
 
-      return data;
+      this.r_v_c_data.correlation_coefficient = correlation_coefficient(r, c);
     },
   },
 };
