@@ -50,6 +50,26 @@
       </div>
     </div>
     <!------------------------------------------------------------>
+    <div id="reaction_stats">
+      <h2>Reaction distribution statistics</h2>
+      <div>
+        <b>Mean:</b> {{ stats.reactions.mean }}<br />
+        <b>Median:</b> {{ stats.reactions.median }}<br />
+        <b>Mode:</b> {{ stats.reactions.mode }}<br />
+        <b>Standard Deviation:</b> {{ stats.reactions.standardDeviation }}
+      </div>
+    </div>
+    <!------------------------------------------------------------>
+    <div id="comment_stats">
+      <h2>Comment distribution statistics</h2>
+      <div>
+        <b>Mean:</b> {{ stats.comments.mean }}<br />
+        <b>Median:</b> {{ stats.comments.median }}<br />
+        <b>Mode:</b> {{ stats.comments.mode }}<br />
+        <b>Standard Deviation:</b> {{ stats.comments.standardDeviation }}
+      </div>
+    </div>
+    <!------------------------------------------------------------>
     <div id="reactions_vs_comments">
       <h2>Reactions vs Comments</h2>
       <chart
@@ -62,6 +82,8 @@
       ></chart>
       <div>
         <b>Correlation Coefficient:</b> {{ r_v_c_data.correlation_coefficient }}
+        <br />
+        <b>Euclidean Distance:</b> {{ r_v_c_data.euclidean_distance }}
       </div>
     </div>
     <!------------------------------------------------------------>
@@ -85,7 +107,14 @@ import AppMenu from "./components/AppMenu.vue";
 import Chart from "./components/Chart.vue";
 import PostList from "./components/PostList.vue";
 import WordCloud from "./components/WordCloud.vue";
-import { correlation_coefficient } from "./libraries/StatMethods";
+import {
+  correlation_coefficient,
+  euclidean,
+  mean,
+  median,
+  mode,
+  sd,
+} from "./libraries/StatMethods";
 
 import {
   API_URL,
@@ -105,9 +134,23 @@ export default {
       most_commented_posts: [],
       r_v_c_chart_data: [],
       r_v_c_data: {
-        r: [],
-        c: [],
+        reactions: [],
+        comments: [],
         correlation_coefficient: 0,
+      },
+      stats: {
+        reactions: {
+          mean: null,
+          median: null,
+          mode: null,
+          standardDeviation: null,
+        },
+        comments: {
+          mean: null,
+          median: null,
+          mode: null,
+          standardDeviation: null,
+        },
       },
     };
   },
@@ -177,18 +220,29 @@ export default {
       let r = [];
       let c = [];
 
-      results.forEach((p, i) => {
-        if (p.public_reactions_count && p.comments_count && i < 1000)
+      results.forEach((p) => {
+        if (p.public_reactions_count && p.comments_count)
           data.push({ x: p.comments_count, y: p.public_reactions_count });
         r.push(p.public_reactions_count);
         c.push(p.comments_count);
       });
 
       this.r_v_c_chart_data = data;
-      this.r_v_c_data.r = r;
-      this.r_v_c_data.c = c;
+      this.r_v_c_data.reactions = r;
+      this.r_v_c_data.comments = c;
+
+      this.stats.reactions.mean = mean(r);
+      this.stats.reactions.median = median(r);
+      this.stats.reactions.mode = mode(r);
+      this.stats.reactions.standardDeviation = sd(r);
+
+      this.stats.comments.mean = mean(c);
+      this.stats.comments.median = median(c);
+      this.stats.comments.mode = mode(c);
+      this.stats.comments.standardDeviation = sd(c);
 
       this.r_v_c_data.correlation_coefficient = correlation_coefficient(r, c);
+      this.r_v_c_data.euclidean_distance = euclidean(r, c);
     },
   },
 };

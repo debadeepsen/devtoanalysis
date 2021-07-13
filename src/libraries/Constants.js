@@ -1,6 +1,6 @@
-export const API_URL = "https://dev.to/api/articles/latest?per_page=2000";
+// export const API_URL = "https://dev.to/api/articles/latest?per_page=100";
 // export const API_URL = "content.json";
-// export const API_URL = "data/articles.json";
+export const API_URL = "data/articles.json";
 export const WORD_MAX_FREQ = 10;
 export const NUMBER_OF_ARTICLES = 10;
 export const COMMON_WORDS = [

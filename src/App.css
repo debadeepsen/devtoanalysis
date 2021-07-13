@@ -78,7 +78,7 @@ a:hover {
 }
 
 #app>#loading_spinner {
-    position: absolute;
+    position: fixed;
     left: 0;
     top : 0;
     width: 100%;
@@ -98,6 +98,14 @@ a:hover {
     margin-bottom: 20px;
     padding-bottom: 10px;
     position: relative;
+}
+
+/* Don't do this
+Using so many nested selectors can be bad for performance
+I'm just feeling super lazy right now from lack of sleep
+Make sure you get enough rest */
+#app>div>div {
+    padding-left: 6px;
 }
 
 #app>div>h2 {
