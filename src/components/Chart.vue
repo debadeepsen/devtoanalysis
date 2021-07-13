@@ -1,5 +1,5 @@
 <template>
-  <div style="position:relative">
+  <div style="position: relative">
     <div class="y-axis-label">{{ yAxisLabel }}</div>
     <div id="chart"></div>
     <div class="x-axis-label">{{ xAxisLabel }}</div>
@@ -21,7 +21,7 @@ export default {
   },
 
   watch: {
-    seriesData: function() {
+    seriesData: function () {
       this.renderChart();
     },
   },
@@ -45,6 +45,16 @@ export default {
         xaxis: {
           type: this.$props.xAxisType,
         },
+        tooltip: {
+          custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+            let data = this.$props.seriesData;
+            console.log(
+              { series, seriesIndex, dataPointIndex, w },
+              this.$props.seriesData
+            );
+            return `<div style="border:1px solid #444;padding:10px">${data[dataPointIndex].y} reactions, ${data[dataPointIndex].x} comments</div>`;
+          },
+        },
       };
 
       console.log("OPTIONS");
@@ -64,7 +74,8 @@ export default {
   margin-left: 50px;
 }
 
-.x-axis-label, .y-axis-label {
+.x-axis-label,
+.y-axis-label {
   font-size: 0.85rem;
   text-align: center;
 }
