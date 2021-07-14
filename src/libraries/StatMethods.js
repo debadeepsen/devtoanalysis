@@ -38,3 +38,26 @@ export const naiveBayes = {
         return classifier.score(item);
     }
 }
+
+export const ml = {
+    classifier: {
+        regression: () => {
+            // let x = new Array(100);
+            // let y = new Array(100);
+            // let val = 0.0;
+            // for (let i = 0; i < x.length; ++i) {
+            //     x[i] = val;
+            //     y[i] = Math.sin(x[i]);
+            //     val += 0.01;
+            // }
+
+            // let reg = new ML.DTRegression();
+            // reg.train(x, y);
+            // let estimations = reg.predict(x);
+
+            // return estimations;
+
+            return { Number: 1, class: Number };
+        }
+    }
+}

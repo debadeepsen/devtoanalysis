@@ -11,6 +11,7 @@
     "apexcharts": "^3.27.2",
     "core-js": "^3.6.5",
     "euclidean-distance": "^1.0.0",
+    "ml": "^6.0.0",
     "simple-statistics": "^7.7.0",
     "vue": "^2.6.11",
     "vue-d3-cloud": "^0.2.0",

@@ -114,6 +114,7 @@ import {
   median,
   mode,
   sd,
+  ml,
 } from "./libraries/StatMethods";
 
 import {
@@ -243,6 +244,8 @@ export default {
 
       this.r_v_c_data.correlation_coefficient = correlation_coefficient(r, c);
       this.r_v_c_data.euclidean_distance = euclidean(r, c);
+
+      console.log({ regression: ml.classifier.regression() });
     },
   },
 };
